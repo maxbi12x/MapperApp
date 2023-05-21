@@ -17,7 +17,7 @@ import com.example.mapperapp.models.MarkerModel
 
 
 class MainActivity : AppCompatActivity(),
-    OnPinClickListener {
+    OnPinClickListener,DailogResponse {
     private var markerList : ArrayList<MarkerModel>? = null
     private var _binding : ActivityMainBinding? = null
     private val binding get() = _binding!!
@@ -28,11 +28,12 @@ class MainActivity : AppCompatActivity(),
         binding.image.setImage(ImageSource.resource(R.drawable._20623))
         binding.image.setOnPinClickListener(this);
         binding.image.setDoubleTapZoomScale(0f)
+
         markerList = ArrayList<MarkerModel>()
         initTouchListener()
         binding.button.setOnClickListener{
             if(markerList==null)
-                Toast.makeText(this, "LINKE", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "LINK", Toast.LENGTH_SHORT).show()
             binding.image.setPin(markerList)
         }
         setContentView(binding.root)
@@ -43,8 +44,8 @@ class MainActivity : AppCompatActivity(),
             override fun onDoubleTap(e: MotionEvent): Boolean {
 
                 point = binding.image.viewToSourceCoord(e.x,e.y)!!
-                markerList?.add(MarkerModel(point.x,point.y,"","","",ArrayList<String>(1)))
-
+//                markerList?.add(MarkerModel(point.x,point.y,"","","",ArrayList<String>(1)))
+                EditMarkerDialogFragment.instance(point,1,this@MainActivity).show(supportFragmentManager,"ADD MARKER")
 
                 return true
             }
@@ -79,5 +80,10 @@ class MainActivity : AppCompatActivity(),
     override fun onPinClick(pin: PointF) {
 
         Toast.makeText(this@MainActivity,"WORKING TEAS",Toast.LENGTH_LONG).show()
+    }
+
+    override fun getResponse(boolean: Boolean, markerModel: MarkerModel) {
+        markerList?.add(markerModel)
+        binding.image.setPin(markerList)
     }
 }
