@@ -56,15 +56,18 @@ class MainActivity : AppCompatActivity(),
                     val clickArea: Bitmap = binding.image.getPin()!!
                     val clickAreaWidth = clickArea.width
                     val clickAreaHeight = clickArea.height
+                    var i =0
                     for( it in markerList!!){
                         val categoryCoordinate: PointF = binding.image.sourceToViewCoord(it.xCord,it.yCord)!!
                         val categoryX = categoryCoordinate.x.toInt()
                         val categoryY = (categoryCoordinate.y - clickAreaHeight / 2).toInt()
                         if (tappedCoordinate.x >= categoryX - clickAreaWidth && tappedCoordinate.x <= categoryX + clickAreaWidth && tappedCoordinate.y >= categoryY - clickAreaHeight && tappedCoordinate.y <= categoryY + clickAreaHeight) {
-                            markerList!!.remove(it)
+                            BottomSheet.instance(i,0).show(supportFragmentManager,"tag")
+//                            markerList!!.remove(it)
                             binding.image.setPin(markerList)
                             break
                         }
+                        i++
 
                     }
 
