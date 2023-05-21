@@ -30,7 +30,6 @@ class BottomSheet : BottomSheetDialogFragment() {
 
 
 
-
     companion object {
         fun instance(markerID: Int, drawingID: Int): BottomSheet {
             val args = Bundle().apply {
