@@ -20,29 +20,27 @@ class AddImageActivity : AppCompatActivity() {
     private var list = ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         _binding = ActivityAddImageBinding.inflate(layoutInflater)
-        binding.appName.setOnClickListener{
-            startActivity(Intent(this@AddImageActivity, MainActivity::class.java))
-        }
-//        startActivity(Intent(this@AddImageActivity, MainActivity::class.java))
+
+
+        setAdapter()
+        setListeners()
+
+
+        setContentView(binding.root)
+
+    }
+    private fun setAdapter(){
         list.addAll(listOf("arr","w","adad","adad","adad"))
         binding.recycler.layoutManager = LinearLayoutManager(this@AddImageActivity,LinearLayoutManager.VERTICAL,false)
         binding.recycler.adapter = AddImageRecycler(list)
-
-
-//        Log.e("NOT WORKING",binding.recycler.adapter!!.itemCount.toString())
-        binding.apply {
-
-//            recycler.layoutManager = LinearLayoutManager(this@AddImageActivity,LinearLayoutManager.VERTICAL,false)
-//            recycler.adapter = AddImageRecycler(ArrayList<String>(10).toTypedArray())
-
-            addImage.setOnClickListener{
-//                startActivity(Intent(this@AddImageActivity, MainActivity::class.java))
-                AddImageDialogFragment.instance().show(supportFragmentManager,"ADD_IMAGE")
-            }
+    }
+    private  fun setListeners(){
+        binding.appName.setOnClickListener{
+            startActivity(Intent(this@AddImageActivity, MainActivity::class.java))
         }
-        setContentView(binding.root)
-
+        binding.addImage.setOnClickListener{
+            AddImageDialogFragment.instance().show(supportFragmentManager,"ADD_IMAGE")
+        }
     }
 }
