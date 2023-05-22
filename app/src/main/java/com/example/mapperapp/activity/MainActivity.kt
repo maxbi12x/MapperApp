@@ -27,14 +27,16 @@ class MainActivity : AppCompatActivity(),
     var point  = PointF(936.25f ,291.75f)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         binding.image.setImage(ImageSource.resource(R.drawable._20623))
         binding.image.setOnPinClickListener(this);
         binding.image.setDoubleTapZoomScale(0f)
 
         markerList = ArrayList<MarkerModel>()
         initTouchListener()
-        setContentView(binding.root)
+
     }
     @SuppressLint("ClickableViewAccessibility")
     private fun initTouchListener() {
