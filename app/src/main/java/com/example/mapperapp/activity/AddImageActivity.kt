@@ -9,6 +9,7 @@ class AddImageActivity : AppCompatActivity() {
     val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         _binding = ActivityAddImageBinding.inflate(layoutInflater)
 
         setContentView(binding.root)

@@ -13,6 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
+
         android:background="@drawable/round_outline"
         android:clipToOutline="true"
         android:scaleType="centerCrop"
@@ -30,7 +31,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="Car Maker"
+        android:text="Title"
         android:layout_marginStart="20dp"
         app:layout_constraintLeft_toRightOf="@id/image"
         app:layout_constraintRight_toRightOf="parent"
@@ -46,22 +47,12 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="Car Model"
+        android:text="Markers Added : 1"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="@id/image_name"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/image_name" />
 
-    <com.google.android.material.button.MaterialButton
-        android:visibility="gone"
-        app:cornerRadius="20dp"
-        android:id="@+id/add_image_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add car image"
-        app:layout_constraintTop_toBottomOf="@id/text_car_model"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/text_car_model" />
 
     <ImageView
         android:layout_marginStart="10dp"
@@ -71,7 +62,7 @@
         android:src="@drawable/delete"
         app:layout_constraintTop_toBottomOf="@id/text_car_model"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/add_image_button" />
+        app:layout_constraintRight_toRightOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

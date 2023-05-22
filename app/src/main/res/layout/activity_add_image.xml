@@ -8,6 +8,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         tools:itemCount="6"
+
         tools:listitem="@layout/add_image_recycler_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
