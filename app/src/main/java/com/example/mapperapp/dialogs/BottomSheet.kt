@@ -1,4 +1,4 @@
-package com.example.mapperapp
+package com.example.mapperapp.dialogs
 
 import android.os.Bundle
 import android.view.LayoutInflater

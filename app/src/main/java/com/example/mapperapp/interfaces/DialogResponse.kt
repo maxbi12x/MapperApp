@@ -1,7 +1,7 @@
-package com.example.mapperapp
+package com.example.mapperapp.interfaces
 
 import com.example.mapperapp.models.MarkerModel
 
-interface DailogResponse {
+interface DialogResponse {
     fun getResponse(boolean: Boolean, markerModel: MarkerModel)
 }

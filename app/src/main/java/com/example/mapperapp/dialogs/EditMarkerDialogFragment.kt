@@ -1,24 +1,19 @@
-package com.example.mapperapp
+package com.example.mapperapp.dialogs
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.PointF
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mapperapp.databinding.DialogFragmentEditMarkerBinding
+import com.example.mapperapp.interfaces.DialogResponse
 import com.example.mapperapp.models.MarkerModel
-import kotlin.properties.Delegates
 
 
 class EditMarkerDialogFragment : DialogFragment() {
 
-    private var dialogResponse: DailogResponse? = null
+    private var dialogResponse: DialogResponse? = null
     private lateinit var coordinatePoints: PointF
 //    private var drawingId by Delegates.notNull<Int>()
     private var _binding: DialogFragmentEditMarkerBinding? = null
@@ -169,7 +164,7 @@ class EditMarkerDialogFragment : DialogFragment() {
         const val Y_COORDINATE_KEY = "yCoor"
         const val DRAWING_ID_KEY = "drawingID"
 
-        fun instance(sourceCoordinates: PointF, drawingId: Int,dialogResponse: DailogResponse): EditMarkerDialogFragment {
+        fun instance(sourceCoordinates: PointF, drawingId: Int,dialogResponse: DialogResponse): EditMarkerDialogFragment {
             val args = Bundle().apply {
                 putFloat(X_COORDINATE_KEY, sourceCoordinates.x)
                 putFloat(Y_COORDINATE_KEY, sourceCoordinates.y)
@@ -185,7 +180,7 @@ class EditMarkerDialogFragment : DialogFragment() {
 
         const val TAG = "AddMarkerDialogFragment"
     }
-    fun setDialogResponse(dialogResponse: DailogResponse){
+    fun setDialogResponse(dialogResponse: DialogResponse){
         this.dialogResponse = dialogResponse
     }
 }

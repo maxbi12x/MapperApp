@@ -1,4 +1,4 @@
-package com.example.mapperapp
+package com.example.mapperapp.interfaces
 
 import android.graphics.PointF
 

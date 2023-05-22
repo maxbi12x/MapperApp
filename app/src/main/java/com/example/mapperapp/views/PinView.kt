@@ -10,9 +10,8 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
-import android.widget.Toast
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-import com.example.mapperapp.OnPinClickListener
+import com.example.mapperapp.interfaces.OnPinClickListener
 import com.example.mapperapp.R
 import com.example.mapperapp.models.MarkerModel
 
