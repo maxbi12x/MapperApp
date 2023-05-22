@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(),
         binding.image.setImage(ImageSource.resource(R.drawable._20623))
         binding.image.setOnPinClickListener(this);
         binding.image.setDoubleTapZoomScale(0f)
+        binding.image.setMaximumDpi(999999)
 
         markerList = ArrayList<MarkerModel>()
         initTouchListener()
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity(),
             override fun onDoubleTap(e: MotionEvent): Boolean {
 
                 point = binding.image.viewToSourceCoord(e.x,e.y)!!
-//                markerList?.add(MarkerModel(point.x,point.y,"","","",ArrayList<String>(1)))
+
                 EditMarkerDialogFragment.instance(point, 1, this@MainActivity)
                     .show(supportFragmentManager,"ADD MARKER")
 
