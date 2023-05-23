@@ -2,7 +2,6 @@ package com.example.mapperapp.dialogs
 
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.PointF
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,10 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.mapperapp.activity.MainActivity
 import com.example.mapperapp.databinding.DialogFragmentAddImageBinding
-import com.example.mapperapp.databinding.DialogFragmentEditMarkerBinding
-import com.example.mapperapp.interfaces.DialogResponse
-import com.example.mapperapp.models.AddImageRecycler
-import com.example.mapperapp.models.MarkerModel
+import com.example.mapperapp.models.ImageDetailsModel
 
 
 class AddImageDialogFragment : DialogFragment() {
@@ -23,6 +19,7 @@ class AddImageDialogFragment : DialogFragment() {
     //    private var drawingId by Delegates.notNull<Int>()
     private var _binding: DialogFragmentAddImageBinding? = null
     private val binding get() = _binding!!
+    private var onImageAdded : OnImageAdded? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +40,14 @@ class AddImageDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.done.setOnClickListener{
-            startActivity(Intent(requireContext(), MainActivity::class.java))
+//            startActivity(Intent(requireContext(), MainActivity::class.java))
+            val title = binding.title.text.toString()
+            val time = System.nanoTime().toString()
+            val image = "Any Image"
+            val markerCount = 10
+            val model = ImageDetailsModel(image,title,time,markerCount)
+            onImageAdded?.getImageAdded(model)
+
             dismiss()
         }
         binding.cancel.setOnClickListener{
@@ -56,9 +60,16 @@ class AddImageDialogFragment : DialogFragment() {
 
 
     companion object {
-        fun instance(): AddImageDialogFragment {
-            return AddImageDialogFragment()
+        fun instance(onImageAdded: OnImageAdded): AddImageDialogFragment {
+            return AddImageDialogFragment().apply { setOnImageAdded(onImageAdded) }
         }
     }
+    fun setOnImageAdded(onImageAdded: OnImageAdded){
+        this.onImageAdded = onImageAdded
+    }
 
+}
+
+interface OnImageAdded{
+    fun getImageAdded(model: ImageDetailsModel)
 }

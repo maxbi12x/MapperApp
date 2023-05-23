@@ -1,13 +1,8 @@
-package com.example.mapperapp.models
+package com.example.mapperapp
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mapperapp.R
-import com.example.mapperapp.databinding.ActivityAddImageBinding
 import com.example.mapperapp.databinding.AddImageRecyclerItemBinding
 
 
@@ -27,6 +22,7 @@ class AddImageRecycler(private val dataSet: ArrayList<String>) :
             binding.apply {
                 image.setImageResource(R.drawable._20623)
                 imageName.text = dataSet[position]
+
             }
 
         }
