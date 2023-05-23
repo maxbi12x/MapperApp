@@ -15,7 +15,7 @@ import kotlin.collections.ArrayList
 class AddImageActivity : AppCompatActivity(),OnImageAdded {
     private var _binding : ActivityAddImageBinding? = null
     private val binding get() = _binding!!
-    private var list = ArrayList<String>()
+    private var list = ArrayList<ImageDetailsModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityAddImageBinding.inflate(layoutInflater)
@@ -28,7 +28,6 @@ class AddImageActivity : AppCompatActivity(),OnImageAdded {
 
     }
     private fun setAdapter(){
-        list.addAll(listOf("arr","w","adad","adad","adad"))
         binding.recycler.layoutManager = LinearLayoutManager(this@AddImageActivity,LinearLayoutManager.VERTICAL,false)
         binding.recycler.adapter = AddImageRecycler(list)
     }
@@ -42,7 +41,7 @@ class AddImageActivity : AppCompatActivity(),OnImageAdded {
     }
 
     override fun getImageAdded(model: ImageDetailsModel) {
-        list.add(0,model.title)
+        list.add(0,model)
         binding.recycler.adapter = AddImageRecycler(list)
 
     }

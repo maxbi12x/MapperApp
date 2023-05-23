@@ -3,6 +3,7 @@ package com.example.mapperapp.dialogs
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.fragment.app.DialogFragment
 import com.example.mapperapp.activity.MainActivity
 import com.example.mapperapp.databinding.DialogFragmentAddImageBinding
 import com.example.mapperapp.models.ImageDetailsModel
+import java.util.*
 
 
 class AddImageDialogFragment : DialogFragment() {
@@ -42,10 +44,13 @@ class AddImageDialogFragment : DialogFragment() {
         binding.done.setOnClickListener{
 //            startActivity(Intent(requireContext(), MainActivity::class.java))
             val title = binding.title.text.toString()
-            val time = System.nanoTime().toString()
-            val image = "Any Image"
+            val time = Date().time
+            val image : Uri = Uri.parse("a")
             val markerCount = 10
-            val model = ImageDetailsModel(image,title,time,markerCount)
+            val model = ImageDetailsModel(
+                imageUri = image,
+                title = title,
+                timeAdded = time)
             onImageAdded?.getImageAdded(model)
 
             dismiss()

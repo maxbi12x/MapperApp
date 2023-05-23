@@ -4,9 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mapperapp.databinding.AddImageRecyclerItemBinding
+import com.example.mapperapp.models.ImageDetailsModel
+import java.util.*
+import kotlin.collections.ArrayList
 
 
-class AddImageRecycler(private val dataSet: ArrayList<String>) :
+class AddImageRecycler(private val dataSet: ArrayList<ImageDetailsModel>) :
     RecyclerView.Adapter<AddImageRecycler.ViewHolder>() {
 
     inner class ViewHolder(val binding : AddImageRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root)
@@ -21,7 +24,9 @@ class AddImageRecycler(private val dataSet: ArrayList<String>) :
         with(viewHolder){
             binding.apply {
                 image.setImageResource(R.drawable._20623)
-                imageName.text = dataSet[position]
+                imageName.text = dataSet[position].title
+                additionTime.text = HelperObject.getRelativeTime(Date(dataSet[position].timeAdded))
+                markerCount.text = dataSet[position].markersCount.toString()
 
             }
 

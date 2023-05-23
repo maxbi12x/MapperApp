@@ -17,7 +17,6 @@ class EditMarkerDialogFragment : DialogFragment() {
 
     private var dialogResponse: DialogResponse? = null
     private lateinit var coordinatePoints: PointF
-//    private var drawingId by Delegates.notNull<Int>()
     private var _binding: DialogFragmentEditMarkerBinding? = null
     private val binding get() = _binding!!
 
@@ -41,7 +40,13 @@ class EditMarkerDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         getArgs()
         binding.done.setOnClickListener{
-            dialogResponse?.getResponse(true, MarkerModel(coordinatePoints.x,coordinatePoints.y,binding.title.text.toString(),binding.name.text.toString(),binding.discussion.text.toString(),ArrayList<String>()))
+            dialogResponse?.getResponse(true, MarkerModel(
+                imageId = 1,
+                xCord = coordinatePoints.x,
+                yCord = coordinatePoints.y,
+                person = binding.name.text.toString(),
+                title = binding.title.text.toString(),
+                discussion = binding.discussion.text.toString()))
             dismiss()
         }
         binding.cancel.setOnClickListener{
