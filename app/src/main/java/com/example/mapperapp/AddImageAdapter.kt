@@ -9,8 +9,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class AddImageRecycler(private val dataSet: ArrayList<ImageDetailsModel>) :
-    RecyclerView.Adapter<AddImageRecycler.ViewHolder>() {
+class AddImageAdapter(private val dataSet: ArrayList<ImageDetailsModel>,private val addImageClickListener: AddImageClickListener) :
+    RecyclerView.Adapter<AddImageAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding : AddImageRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -27,6 +27,10 @@ class AddImageRecycler(private val dataSet: ArrayList<ImageDetailsModel>) :
                 imageName.text = dataSet[position].title
                 additionTime.text = HelperObject.getRelativeTime(Date(dataSet[position].timeAdded))
                 markerCount.text = dataSet[position].markersCount.toString()
+                deleteButton.setOnClickListener{ addImageClickListener.onAddImageDeleteClick(position)}
+                listItem.setOnClickListener{ addImageClickListener.onViewClick(position)}
+                editButton.setOnClickListener{addImageClickListener.onEditNameClicked(position)}
+
 
             }
 
@@ -34,5 +38,11 @@ class AddImageRecycler(private val dataSet: ArrayList<ImageDetailsModel>) :
     }
 
     override fun getItemCount() = dataSet.size
+
+    interface AddImageClickListener{
+        fun onViewClick(position: Int)
+        fun onAddImageDeleteClick(position: Int)
+        fun onEditNameClicked(position: Int)
+    }
 
 }

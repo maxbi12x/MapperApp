@@ -12,17 +12,19 @@ interface ImageDetailsDao {
     @Update(onConflict = OnConflictStrategy.ABORT)
     suspend fun updateImage(imageDetailsModel: ImageDetailsModel): Int
 
-    @Delete
-    suspend fun deleteImage(imageDetailsModel: ImageDetailsModel): Int
+    @Query("delete from images where imageId=:id")
+    suspend fun deleteImage(id : Int): Int
 
-    @Query("update images set markerCount=markerCount-1 where imageId=:image")
+    @Query("update images set markersCount=markersCount-1 where imageId=:image")
     suspend fun decreaseMarkerCount(image: Int): Int
 
-    @Query("update images set markerCount=markerCount-1 where imageId=:image")
+    @Query("update images set markersCount=markersCount-1 where imageId=:image")
     suspend fun increaseMarkerCount(image: Int): Int
 
     @Query("select * from images order by timeAdded desc")
-    fun getImages(): List<ImageDetailsModel>
+    suspend fun getImages(): List<ImageDetailsModel>
+    @Query("select * from images where imageId=:image")
+    suspend fun getSingleImage(image : Int): ImageDetailsModel
 
 
 }

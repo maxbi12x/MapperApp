@@ -12,6 +12,7 @@ import androidx.fragment.app.DialogFragment
 import com.example.mapperapp.activity.MainActivity
 import com.example.mapperapp.databinding.DialogFragmentAddImageBinding
 import com.example.mapperapp.models.ImageDetailsModel
+import com.example.mapperapp.viewmodel.AddImageViewModel
 import java.util.*
 
 
@@ -22,14 +23,17 @@ class AddImageDialogFragment : DialogFragment() {
     private var _binding: DialogFragmentAddImageBinding? = null
     private val binding get() = _binding!!
     private var onImageAdded : OnImageAdded? = null
-
+    private var Id : Int = 0
+    private var isAdd = true
+    private lateinit var  viewModel : AddImageViewModel
+    private val image by lazy { viewModel.getImage(Id) }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = DialogFragmentAddImageBinding.inflate(inflater, container, false)
-//        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        viewModel = AddImageViewModel(requireActivity().application)
         dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return binding.root
     }
@@ -39,14 +43,20 @@ class AddImageDialogFragment : DialogFragment() {
         _binding = null
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getArgs()
+        if(isAdd){
+            binding.dialogTitle.text = "ADD IMAGE"
+        }else{
+            binding.dialogTitle.text = "EDIT NAME"
+        }
+
         binding.done.setOnClickListener{
-//            startActivity(Intent(requireContext(), MainActivity::class.java))
             val title = binding.title.text.toString()
             val time = Date().time
             val image : Uri = Uri.parse("a")
-            val markerCount = 10
             val model = ImageDetailsModel(
                 imageUri = image,
                 title = title,
@@ -62,11 +72,24 @@ class AddImageDialogFragment : DialogFragment() {
     }
 
 
-
+    private fun getArgs() {
+        if (arguments != null && arguments?.containsKey(key) == true) {
+            Id = requireArguments().getInt(key)
+            isAdd = false
+        }
+    }
 
     companion object {
-        fun instance(onImageAdded: OnImageAdded): AddImageDialogFragment {
-            return AddImageDialogFragment().apply { setOnImageAdded(onImageAdded) }
+        val key = "EXTRAS_KEY"
+        fun instance(onImageAdded: OnImageAdded,id : Int = 0,isAdd : Boolean): AddImageDialogFragment {
+            return AddImageDialogFragment().apply {
+                setOnImageAdded(onImageAdded)
+                if(!isAdd){
+                    arguments =  Bundle().apply {
+                        putInt(key, id)
+                    }
+                }
+            }
         }
     }
     fun setOnImageAdded(onImageAdded: OnImageAdded){

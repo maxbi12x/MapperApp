@@ -8,17 +8,13 @@ import com.example.mapperapp.models.MarkerImagesModel
 interface MarkerImagesDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertMarkerImage(markerImagesModel: MarkerImagesModel): Long
-
-    @Delete
-    suspend fun deleteMarkerImage(markerImagesModel: MarkerImagesModel): Int
-
     @Query("delete from marker_images where imageId=:Id")
-    suspend fun deleteAllMarkerImagesUsingImageID(Id: Int)
+    suspend fun deleteMarkerImagesUsingImageID(Id: Int)
 
     @Query("delete from marker_images where markerId=:Id")
-    suspend fun deleteAllMarkerImagesWithMarkerID(Id: Int) : Int
+    suspend fun deleteMarkerImagesUsingMarkerID(Id: Int) : Int
 
     @Query("select * from marker_images where markerId=:Id")
-    fun getMarkerImagesFromMarkerID(Id: Int): List<MarkerImagesModel>
+    suspend fun getMarkerImagesFromMarkerID(Id: Int): List<MarkerImagesModel>
 
 }

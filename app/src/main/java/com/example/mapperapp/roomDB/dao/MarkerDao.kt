@@ -16,11 +16,11 @@ interface MarkerDao {
     suspend fun deleteMarkerUsingMarkerID(marker: Int): Int
 
     @Query("delete from markers where imageId=:image")
-    suspend fun deleteAllMarkersOfDrawingWithID(image: Int)
+    suspend fun deleteAllMarkersUsingImageID(image: Int)
 
-    @Query("select count(*) from markers where imageId=:id")
-    fun getMarkerCountOf(id: Int): Int
+//    @Query("select count(*) from markers where imageId=:id")
+//    suspend fun getMarkerCount(id: Int): Int
 
     @Query("select * from markers where imageId=:id")
-    fun getMarkersUsingImageID(id: Int): List<MarkerModel>
+    suspend fun getMarkers(id: Int): List<MarkerModel>
 }
