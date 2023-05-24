@@ -1,18 +1,16 @@
-package com.example.mapperapp.activity
+package com.example.mapperapp.addImageScreen
 
 import android.content.Intent
 import android.os.Bundle
-import android.transition.AutoTransition
-import android.transition.TransitionManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mapperapp.AddImageAdapter
+import com.example.mapperapp.adapters.AddImageAdapter
+import com.example.mapperapp.markerMainScreen.MainActivity
 import com.example.mapperapp.databinding.ActivityAddImageBinding
-import com.example.mapperapp.dialogs.AddImageDialogFragment
 import com.example.mapperapp.models.ImageDetailsModel
 import com.example.mapperapp.viewmodel.AddImageViewModel
 
-class AddImageActivity : AppCompatActivity(),AddImageAdapter.AddImageClickListener {
+class AddImageActivity : AppCompatActivity(), AddImageAdapter.AddImageClickListener {
     private var _binding : ActivityAddImageBinding? = null
     private val binding get() = _binding!!
     private var list = ArrayList<ImageDetailsModel>()

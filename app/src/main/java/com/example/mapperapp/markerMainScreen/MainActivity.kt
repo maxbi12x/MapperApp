@@ -1,4 +1,4 @@
-package com.example.mapperapp.activity
+package com.example.mapperapp.markerMainScreen
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
@@ -10,9 +10,7 @@ import android.view.MotionEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.davemorrissey.labs.subscaleview.ImageSource
-import com.example.mapperapp.HelperObject
-import com.example.mapperapp.dialogs.BottomSheet
-import com.example.mapperapp.dialogs.EditMarkerDialogFragment
+import com.example.mapperapp.utils.HelperObject
 import com.example.mapperapp.databinding.ActivityMainBinding
 import com.example.mapperapp.models.ImageDetailsModel
 import com.example.mapperapp.models.MarkerModel

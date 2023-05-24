@@ -16,7 +16,7 @@
 
 
         <activity
-            android:name=".activity.AddImageActivity"
+            android:name=".addImageScreen.AddImageActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".markerMainScreen.MainActivity"
             android:exported="false" />
     </application>
 

@@ -18,7 +18,7 @@ interface ImageDetailsDao {
     @Query("update images set markersCount=markersCount-1 where imageId=:image")
     suspend fun decreaseMarkerCount(image: Int): Int
 
-    @Query("update images set markersCount=markersCount-1 where imageId=:image")
+    @Query("update images set markersCount=markersCount+1 where imageId=:image")
     suspend fun increaseMarkerCount(image: Int): Int
 
     @Query("select * from images order by timeAdded desc")

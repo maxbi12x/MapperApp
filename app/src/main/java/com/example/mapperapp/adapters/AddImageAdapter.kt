@@ -1,13 +1,11 @@
-package com.example.mapperapp
+package com.example.mapperapp.adapters
 
-import android.R
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mapperapp.utils.HelperObject
 import com.example.mapperapp.databinding.AddImageRecyclerItemBinding
 import com.example.mapperapp.models.ImageDetailsModel
-import java.io.File
 import java.util.*
 
 

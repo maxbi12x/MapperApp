@@ -44,9 +44,9 @@ class Repository(context : Context) {
     }
     suspend fun alterMarkerCount(id: Int, inc : Boolean){
         if(inc){
-            appDatabase.imageDetailsDao().decreaseMarkerCount(id)
-        }else{
             appDatabase.imageDetailsDao().increaseMarkerCount(id)
+        }else{
+            appDatabase.imageDetailsDao().decreaseMarkerCount(id)
         }
     }
     suspend fun updateImageName(imageDetailsModel: ImageDetailsModel){

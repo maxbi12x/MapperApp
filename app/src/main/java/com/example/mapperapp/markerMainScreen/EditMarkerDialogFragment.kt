@@ -1,24 +1,18 @@
-package com.example.mapperapp.dialogs
+package com.example.mapperapp.markerMainScreen
 
 import android.graphics.Color
 import android.graphics.PointF
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import com.example.mapperapp.databinding.DialogFragmentEditMarkerBinding
 import com.example.mapperapp.models.MarkerModel
 import com.example.mapperapp.viewmodel.MainActivityViewModel
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.nio.channels.FileChannel
 
 
 class EditMarkerDialogFragment : DialogFragment() {
@@ -36,7 +30,6 @@ class EditMarkerDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = DialogFragmentEditMarkerBinding.inflate(inflater, container, false)
-//        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         viewModel = MainActivityViewModel(requireActivity().application)
         return binding.root

@@ -1,4 +1,4 @@
-package com.example.mapperapp.dialogs
+package com.example.mapperapp.addImageScreen
 
 import android.Manifest
 import android.app.Activity
@@ -23,7 +23,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
-import com.example.mapperapp.HelperObject
+import com.example.mapperapp.utils.HelperObject
 import com.example.mapperapp.R
 import com.example.mapperapp.databinding.DialogFragmentAddImageBinding
 import com.example.mapperapp.models.ImageDetailsModel
@@ -39,9 +39,6 @@ class AddImageDialogFragment : DialogFragment() {
     private lateinit var cameraResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
     private var uri: Uri?=null
-    private lateinit var launcher: ActivityResultLauncher<Intent>
-
-    //    private var drawingId by Delegates.notNull<Int>()
     private var _binding: DialogFragmentAddImageBinding? = null
     private val binding get() = _binding!!
     private var Id : Int = 0
@@ -57,7 +54,6 @@ class AddImageDialogFragment : DialogFragment() {
         viewModel = AddImageViewModel(requireActivity().application)
         dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         getArgs()
-        handlerForOnResultActivity()
         return binding.root
     }
 
@@ -70,7 +66,7 @@ class AddImageDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if(isAdd){
-
+            handlerForOnResultActivity()
             binding.dialogTitle.text = "ADD IMAGE"
         }else{
             getImageDetails()
@@ -98,8 +94,11 @@ class AddImageDialogFragment : DialogFragment() {
         else if(uri==null){
             Toast.makeText(this.requireContext(), "Please select an image", Toast.LENGTH_SHORT).show()
         }
-        else {val model = if(isAdd) ImageDetailsModel(imageUri = uri!!, title = title, timeAdded = time) else imagesReceived.copy(title =  title)
-            viewModel.addImage(model)
+        else {
+            if(isAdd)
+                viewModel.addImage(ImageDetailsModel(imageUri = uri!!, title = title, timeAdded = time))
+            else
+                viewModel.updateImageName(imagesReceived.copy(title =  title))
             dismiss()
         }
     }

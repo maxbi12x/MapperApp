@@ -1,4 +1,4 @@
-package com.example.mapperapp
+package com.example.mapperapp.utils
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
