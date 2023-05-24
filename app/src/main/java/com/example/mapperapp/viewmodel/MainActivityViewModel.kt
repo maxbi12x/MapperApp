@@ -15,16 +15,22 @@ class MainActivityViewModel(context: Application): ViewModel() {
     private var repository: Repository
     var markerImagesListLive : LiveData<List<MarkerImagesModel>>
     var markerListLive : LiveData<List<MarkerModel>>
+    var imageLive : LiveData<ImageDetailsModel>
 
     init {
         repository = Repository.getInstance(context)
         markerImagesListLive = repository.markerImagesListLive
         markerListLive = repository.markerListLive
+        imageLive = repository.imageLive
+    }
+    fun getImage(id : Int){
+        viewModelScope.launch (Dispatchers.IO){ repository.getImage(id) }
     }
     fun addMarker(markerModel: MarkerModel){
         viewModelScope.launch(Dispatchers.IO) {
             repository.addMarker(markerModel)
             repository.alterMarkerCount(markerModel.imageId,true)
+            repository.getMarkers(markerModel.imageId)
             repository.getImagesList()
         }
     }

@@ -11,7 +11,6 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-import com.example.mapperapp.interfaces.OnPinClickListener
 import com.example.mapperapp.R
 import com.example.mapperapp.models.MarkerModel
 
@@ -19,7 +18,7 @@ class PinView @JvmOverloads constructor(context: Context?, attr: AttributeSet? =
     SubsamplingScaleImageView(context, attr) {
     private val paint = Paint()
     private val vPin = PointF()
-    private var markerList: ArrayList<MarkerModel>? = null
+    private var markerList: List<MarkerModel>? = null
 
 
     init {
@@ -47,7 +46,7 @@ class PinView @JvmOverloads constructor(context: Context?, attr: AttributeSet? =
         return bitmap
     }
 
-    fun setPin(markerList: ArrayList<MarkerModel>?) {
+    fun setPin(markerList: List<MarkerModel>?) {
         this.markerList = markerList
         initialise()
         invalidate()
@@ -77,8 +76,4 @@ class PinView @JvmOverloads constructor(context: Context?, attr: AttributeSet? =
         }
     }
 
-    private var onPinClickListener: OnPinClickListener? = null
-    fun setOnPinClickListener(listener: OnPinClickListener?) {
-        onPinClickListener = listener
-    }
 }

@@ -10,33 +10,35 @@ import android.view.MotionEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.davemorrissey.labs.subscaleview.ImageSource
+import com.example.mapperapp.HelperObject
 import com.example.mapperapp.dialogs.BottomSheet
 import com.example.mapperapp.dialogs.EditMarkerDialogFragment
-import com.example.mapperapp.R
 import com.example.mapperapp.databinding.ActivityMainBinding
-import com.example.mapperapp.interfaces.DialogResponse
-import com.example.mapperapp.interfaces.OnPinClickListener
+import com.example.mapperapp.models.ImageDetailsModel
 import com.example.mapperapp.models.MarkerModel
+import com.example.mapperapp.viewmodel.MainActivityViewModel
 
 
-class MainActivity : AppCompatActivity(),
-    OnPinClickListener, DialogResponse {
-    private var markerList : ArrayList<MarkerModel>? = null
+class MainActivity : AppCompatActivity(){
+    private var markerList : List<MarkerModel>? = null
     private var _binding : ActivityMainBinding? = null
     private val binding get() = _binding!!
-    var point  = PointF(936.25f ,291.75f)
+    private lateinit var viewModel : MainActivityViewModel
+    private var imageId : Int = 0
+    private lateinit var imageDetailsModel : ImageDetailsModel
+    private lateinit var point : PointF
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.image.setImage(ImageSource.resource(R.drawable._20623))
-        binding.image.setOnPinClickListener(this);
-        binding.image.setDoubleTapZoomScale(0f)
-        binding.image.setMaximumDpi(999999)
-
-        markerList = ArrayList<MarkerModel>()
+        viewModel = MainActivityViewModel(this.application)
+        getDrawingIDFromIntent()
+        setObservers()
+        getImage()
+        getMarkers()
         initTouchListener()
+
 
     }
     @SuppressLint("ClickableViewAccessibility")
@@ -46,7 +48,7 @@ class MainActivity : AppCompatActivity(),
 
                 point = binding.image.viewToSourceCoord(e.x,e.y)!!
 
-                EditMarkerDialogFragment.instance(point, 1, this@MainActivity)
+                EditMarkerDialogFragment.instance(point, imageId)
                     .show(supportFragmentManager,"ADD MARKER")
 
                 return true
@@ -58,18 +60,16 @@ class MainActivity : AppCompatActivity(),
                     val clickArea: Bitmap = binding.image.getPin()!!
                     val clickAreaWidth = clickArea.width
                     val clickAreaHeight = clickArea.height
-                    var i =0
+
                     for( it in markerList!!){
                         val categoryCoordinate: PointF = binding.image.sourceToViewCoord(it.xCord,it.yCord)!!
                         val categoryX = categoryCoordinate.x.toInt()
                         val categoryY = (categoryCoordinate.y - clickAreaHeight / 2).toInt()
                         if (tappedCoordinate.x >= categoryX - clickAreaWidth && tappedCoordinate.x <= categoryX + clickAreaWidth && tappedCoordinate.y >= categoryY - clickAreaHeight && tappedCoordinate.y <= categoryY + clickAreaHeight) {
-                            BottomSheet.instance(i, 0).show(supportFragmentManager,"tag")
-//                            markerList!!.remove(it)
-                            binding.image.setPin(markerList)
+                            BottomSheet.instance(it.markerId).show(supportFragmentManager,"tag")
+
                             break
                         }
-                        i++
 
                     }
 
@@ -82,13 +82,35 @@ class MainActivity : AppCompatActivity(),
         }
 
     }
-    override fun onPinClick(pin: PointF) {
-
-        Toast.makeText(this@MainActivity,"WORKING TEAS",Toast.LENGTH_LONG).show()
+    private fun getDrawingIDFromIntent() {
+        val bundle = intent.extras
+        if (bundle != null) {
+            imageId = bundle.getInt("IMAGE_ID")
+        } else {
+            finish()
+            Toast.makeText(this,"Error Loading Data",Toast.LENGTH_SHORT).show()
+        }
+    }
+    private fun getImage() {
+        viewModel.getImage(imageId)
+    }
+    private fun getMarkers(){
+        viewModel.getMarkers(imageId)
+    }
+    private  fun setObservers(){
+        viewModel.markerListLive.observe(this@MainActivity){
+            binding.image.setPin(it)
+            markerList = it
+        }
+        binding.image.apply {
+            viewModel.imageLive.observe(this@MainActivity) {
+                this.setImage(ImageSource.bitmap(HelperObject.getBitmap(it.imageUri.toString())!!))
+                this.setDoubleTapZoomScale(0f)
+                this.setMinimumDpi(100)
+                this.setDoubleTapZoomDpi(999999)
+                getMarkers()
+            }
+        }
     }
 
-    override fun getResponse(boolean: Boolean, markerModel: MarkerModel) {
-        markerList?.add(markerModel)
-        binding.image.setPin(markerList)
-    }
 }

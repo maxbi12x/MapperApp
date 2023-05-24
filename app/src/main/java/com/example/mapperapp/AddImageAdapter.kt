@@ -1,15 +1,17 @@
 package com.example.mapperapp
 
+import android.R
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mapperapp.databinding.AddImageRecyclerItemBinding
 import com.example.mapperapp.models.ImageDetailsModel
+import java.io.File
 import java.util.*
-import kotlin.collections.ArrayList
 
 
-class AddImageAdapter(private val dataSet: ArrayList<ImageDetailsModel>,private val addImageClickListener: AddImageClickListener) :
+class AddImageAdapter(private val dataSet: List<ImageDetailsModel>,private val addImageClickListener: AddImageClickListener) :
     RecyclerView.Adapter<AddImageAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding : AddImageRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root)
@@ -23,13 +25,14 @@ class AddImageAdapter(private val dataSet: ArrayList<ImageDetailsModel>,private 
 //        Log.e("DATA SET", dataSet.size.toString())
         with(viewHolder){
             binding.apply {
-                image.setImageResource(R.drawable._20623)
+
+                image.setImageBitmap(HelperObject.getBitmap(dataSet[position].imageUri.toString()))
                 imageName.text = dataSet[position].title
                 additionTime.text = HelperObject.getRelativeTime(Date(dataSet[position].timeAdded))
                 markerCount.text = dataSet[position].markersCount.toString()
-                deleteButton.setOnClickListener{ addImageClickListener.onAddImageDeleteClick(position)}
-                listItem.setOnClickListener{ addImageClickListener.onViewClick(position)}
-                editButton.setOnClickListener{addImageClickListener.onEditNameClicked(position)}
+                deleteButton.setOnClickListener{ addImageClickListener.onAddImageDeleteClick(dataSet[position].imageId)}
+                listItem.setOnClickListener{ addImageClickListener.onViewClick(dataSet[position].imageId)}
+                editButton.setOnClickListener{addImageClickListener.onEditNameClicked(dataSet[position].imageId)}
 
 
             }

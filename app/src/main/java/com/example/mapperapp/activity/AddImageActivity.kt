@@ -9,54 +9,55 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mapperapp.AddImageAdapter
 import com.example.mapperapp.databinding.ActivityAddImageBinding
 import com.example.mapperapp.dialogs.AddImageDialogFragment
-import com.example.mapperapp.dialogs.OnImageAdded
 import com.example.mapperapp.models.ImageDetailsModel
 import com.example.mapperapp.viewmodel.AddImageViewModel
 
-class AddImageActivity : AppCompatActivity(),OnImageAdded,AddImageAdapter.AddImageClickListener {
+class AddImageActivity : AppCompatActivity(),AddImageAdapter.AddImageClickListener {
     private var _binding : ActivityAddImageBinding? = null
     private val binding get() = _binding!!
     private var list = ArrayList<ImageDetailsModel>()
+    private lateinit var viewModel : AddImageViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityAddImageBinding.inflate(layoutInflater)
-        AddImageViewModel(application)
+        viewModel = AddImageViewModel(application)
 
         setAdapter()
         setListeners()
+        setLiveData()
         setContentView(binding.root)
     }
     private fun setAdapter(){
 
         binding.recycler.layoutManager = LinearLayoutManager(this@AddImageActivity,LinearLayoutManager.VERTICAL,false)
 
-        binding.recycler.adapter = AddImageAdapter(list,this)
-        TransitionManager.beginDelayedTransition(binding.recycler, AutoTransition())
     }
     private  fun setListeners(){
         binding.addImage.setOnClickListener{
-            AddImageDialogFragment.instance(this@AddImageActivity, isAdd = true).show(supportFragmentManager,"ADD_IMAGE")
+            AddImageDialogFragment.instance(isAdd = true).show(supportFragmentManager,"ADD_IMAGE")
+        }
+    }
+    private fun setLiveData(){
+        viewModel.imagesList()
+        viewModel.imagesListLive.observe(this){
+            binding.recycler.adapter = AddImageAdapter(it,this)
         }
     }
 
-    override fun getImageAdded(model: ImageDetailsModel) {
-        list.add(0,model)
-        binding.recycler.adapter = AddImageAdapter(list,this)
 
+
+    override fun onViewClick(Id: Int) {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("IMAGE_ID", Id)
+        startActivity(intent)
     }
 
-    override fun onViewClick(position: Int) {
-        startActivity(Intent(this@AddImageActivity, MainActivity::class.java))
+
+    override fun onAddImageDeleteClick(id : Int) {
+        viewModel.deleteImage(id)
     }
 
-
-    override fun onAddImageDeleteClick(position: Int) {
-        list.removeAt(position)
-        binding.recycler.adapter = AddImageAdapter(list,this)
-    }
-
-    override fun onEditNameClicked(position: Int) {
-
-        AddImageDialogFragment.instance(this@AddImageActivity,list[position].imageId,false).show(supportFragmentManager,"EDIT_IMAGE")
+    override fun onEditNameClicked(id: Int) {
+        AddImageDialogFragment.instance(id,false).show(supportFragmentManager,"EDIT_IMAGE")
     }
 }

@@ -31,7 +31,7 @@ class BottomSheet : BottomSheetDialogFragment() {
 
 
     companion object {
-        fun instance(markerID: Int, drawingID: Int): BottomSheet {
+        fun instance(markerID: Int): BottomSheet {
             val args = Bundle().apply {
                 putInt(MARKER_ID_KEY, markerID)
             }
