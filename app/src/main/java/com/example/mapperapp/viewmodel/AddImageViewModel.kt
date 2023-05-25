@@ -32,7 +32,6 @@ class AddImageViewModel(context: Application): ViewModel() {
         viewModelScope.launch (Dispatchers.IO){
             repository!!.deleteImageByImageId(id)
             repository!!.deleteMarkerUsingImageId(id)
-            repository!!.deleteMarkerImagesUsingImageId(id)
             repository!!.getImagesList()
         }
     }

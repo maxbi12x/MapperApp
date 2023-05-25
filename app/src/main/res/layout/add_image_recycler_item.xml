@@ -37,7 +37,7 @@
         app:layout_constraintLeft_toRightOf="@id/image"/>
 
     <TextView
-
+        style="@style/app_text_color"
         android:layout_marginTop="5dp"
         android:id="@+id/image_name"
         android:layout_width="0dp"
@@ -53,6 +53,9 @@
         app:layout_constraintTop_toTopOf="@id/image" />
 
     <TextView
+
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="2dp"
         android:textSize="12sp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
@@ -62,14 +65,14 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:text="15 Minutes Ago"
-        android:textColor="@color/purple_700"
-
-        android:background="#903011"
+        android:textColor="#BB3F3F"
+        android:background="#808080"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="@id/image_name"
         app:layout_constraintTop_toBottomOf="@id/image_name"/>
 
     <ImageView
+        style="@style/back_tint"
         android:clickable="true"
         android:layout_marginStart="10dp"
         android:id="@+id/edit_button"
@@ -83,6 +86,7 @@
         android:focusable="true" />
     <ImageView
         android:clickable="true"
+        style="@style/back_tint"
         android:layout_marginStart="10dp"
         android:id="@+id/delete_button"
         android:layout_width="30dp"

@@ -1,14 +1,11 @@
 package com.example.mapperapp.repository
 
 import android.content.Context
-import android.media.Image
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mapperapp.models.ImageDetailsModel
-import com.example.mapperapp.models.MarkerImagesModel
 import com.example.mapperapp.models.MarkerModel
 import com.example.mapperapp.roomDB.AppDatabase
-import com.example.mapperapp.roomDB.dao.MarkerDao
 
 class Repository(context : Context) {
 
@@ -17,10 +14,10 @@ class Repository(context : Context) {
     val imagesListLive : LiveData<List<ImageDetailsModel>> = _imagesListLive
     private var _imageLive : MutableLiveData<ImageDetailsModel> = MutableLiveData()
     val imageLive : LiveData<ImageDetailsModel> = _imageLive
-    private var _markerImagesListLive : MutableLiveData<List<MarkerImagesModel>> = MutableLiveData()
-    val markerImagesListLive : LiveData<List<MarkerImagesModel>> = _markerImagesListLive
     private var _markerListLive : MutableLiveData<List<MarkerModel>> = MutableLiveData()
     val markerListLive : LiveData<List<MarkerModel>> = _markerListLive
+    private var _markerLive : MutableLiveData<MarkerModel> = MutableLiveData()
+    val markerLive : LiveData<MarkerModel> = _markerLive
 
 
     init {
@@ -59,6 +56,9 @@ class Repository(context : Context) {
         //post
         _markerListLive.postValue(appDatabase.markerDao().getMarkers(id))
     }
+    suspend fun getMarker(id : Int){
+        _markerLive.postValue(appDatabase.markerDao().getMarker(id))
+    }
     suspend fun deleteMarkerUsingMarkerId(id: Int){
         appDatabase.markerDao().deleteMarkerUsingMarkerID(id)
     }
@@ -68,22 +68,6 @@ class Repository(context : Context) {
     suspend fun updateMarker(markerModel: MarkerModel){
         appDatabase.markerDao().updateMarker(markerModel)
     }
-    suspend fun getMarkerImages(id: Int){
-        //post
-        _markerImagesListLive.postValue(appDatabase.markerImagesDao().getMarkerImagesFromMarkerID(id))
-
-    }
-    suspend fun addMarkerImage(markerImagesModel: MarkerImagesModel){
-        appDatabase.markerImagesDao().insertMarkerImage(markerImagesModel)
-    }
-    suspend fun deleteMarkerImagesUsingMarkerId(id : Int){
-        appDatabase.markerImagesDao().deleteMarkerImagesUsingMarkerID(id)
-    }
-    suspend fun deleteMarkerImagesUsingImageId(id : Int){
-        appDatabase.markerImagesDao().deleteMarkerImagesUsingImageID(id)
-    }
-
-
 
 
 

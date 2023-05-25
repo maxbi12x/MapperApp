@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity(){
 
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setListeners()
         viewModel = MainActivityViewModel(this.application)
         getDrawingIDFromIntent()
         setObservers()
@@ -46,8 +47,8 @@ class MainActivity : AppCompatActivity(){
 
                 point = binding.image.viewToSourceCoord(e.x,e.y)!!
 
-                EditMarkerDialogFragment.instance(point, imageId)
-                    .show(supportFragmentManager,"ADD MARKER")
+                EditMarkerDialogFragment.instance(point, imageId,0,true)
+                    .show(supportFragmentManager,EditMarkerDialogFragment.ADD_MARKER)
 
                 return true
             }
@@ -89,6 +90,12 @@ class MainActivity : AppCompatActivity(){
             Toast.makeText(this,"Error Loading Data",Toast.LENGTH_SHORT).show()
         }
     }
+
+    private fun setListeners(){
+        binding.backButton.setOnClickListener{
+            finish()
+        }
+    }
     private fun getImage() {
         viewModel.getImage(imageId)
     }
@@ -106,6 +113,7 @@ class MainActivity : AppCompatActivity(){
                 this.setDoubleTapZoomScale(0f)
                 this.setMinimumDpi(100)
                 this.setDoubleTapZoomDpi(999999)
+                binding.imageName.text = it.title
                 getMarkers()
             }
         }

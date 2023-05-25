@@ -46,10 +46,13 @@
                 android:hint="Title"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dialog_title">
+                app:layout_constraintTop_toBottomOf="@id/dialog_title"
+                app:boxStrokeColor="@color/purple_500"
+                android:textColorHint="@color/purple_500">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/title"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
@@ -65,9 +68,12 @@
                 android:hint="Name"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_title">
+                app:layout_constraintTop_toBottomOf="@id/text_title"
+                app:boxStrokeColor="@color/purple_500"
+                android:textColorHint="@color/purple_500">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:textColor="@color/black"
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -84,41 +90,42 @@
                 android:hint="Discussion"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_person">
+                app:layout_constraintTop_toBottomOf="@id/text_person"
+                app:boxStrokeColor="@color/purple_500"
+                android:textColorHint="@color/purple_500">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:textColor="@color/black"
                     android:id="@+id/discussion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/image_recycler"
+            <ImageView
+                android:id="@+id/image_added"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_discussion"
-                tools:itemCount="10"
-                tools:listitem="@layout/image_item" />
+                app:layout_constraintTop_toBottomOf="@id/text_discussion" />
+
+
 
             <com.google.android.material.button.MaterialButton
+                android:backgroundTint="@color/white"
                 android:id="@+id/attach_image_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:paddingHorizontal="25dp"
-                android:paddingVertical="5dp"
+                android:padding="0dp"
                 android:text="Add Image"
-
-                app:cornerRadius="20dp"
+                android:textSize="10sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/image_recycler" />
+                app:layout_constraintTop_toBottomOf="@id/image_added" />
 
             <TextView
                 android:id="@+id/done"

@@ -8,9 +8,10 @@ import com.example.mapperapp.adapters.AddImageAdapter
 import com.example.mapperapp.markerMainScreen.MainActivity
 import com.example.mapperapp.databinding.ActivityAddImageBinding
 import com.example.mapperapp.models.ImageDetailsModel
+import com.example.mapperapp.utils.HelperObject
 import com.example.mapperapp.viewmodel.AddImageViewModel
 
-class AddImageActivity : AppCompatActivity(), AddImageAdapter.AddImageClickListener {
+class AddImageActivity : AppCompatActivity(), AddImageAdapter.AddImageClickListener,HelperObject.DeleteItem {
     private var _binding : ActivityAddImageBinding? = null
     private val binding get() = _binding!!
     private var list = ArrayList<ImageDetailsModel>()
@@ -52,10 +53,15 @@ class AddImageActivity : AppCompatActivity(), AddImageAdapter.AddImageClickListe
 
 
     override fun onAddImageDeleteClick(id : Int) {
-        viewModel.deleteImage(id)
+        HelperObject.openDeleteDialog(this,"Delete Image","Do yo really want to delete this image, every detail associated will also be deleted",this,id)
+
     }
 
     override fun onEditNameClicked(id: Int) {
         AddImageDialogFragment.instance(id,false).show(supportFragmentManager,"EDIT_IMAGE")
+    }
+
+    override fun onDeleteItem(Id: Int) {
+        viewModel.deleteImage(Id)
     }
 }

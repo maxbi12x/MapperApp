@@ -23,4 +23,7 @@ interface MarkerDao {
 
     @Query("select * from markers where imageId=:id")
     suspend fun getMarkers(id: Int): List<MarkerModel>
+
+    @Query("select * from markers where markerId=:id")
+    suspend fun getMarker(id : Int) : MarkerModel
 }

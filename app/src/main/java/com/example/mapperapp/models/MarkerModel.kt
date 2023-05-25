@@ -1,5 +1,6 @@
 package com.example.mapperapp.models
 
+import android.net.Uri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -12,5 +13,6 @@ data class MarkerModel(
     val yCord : Float,
     val person : String,
     val title : String,
-    val discussion : String
+    val discussion : String,
+    val uri : Uri
 )

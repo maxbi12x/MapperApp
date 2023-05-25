@@ -45,18 +45,13 @@ class AddImageDialogFragment : DialogFragment() {
     private var isAdd = true
     private lateinit var imagesReceived : ImageDetailsModel
     private lateinit var  viewModel : AddImageViewModel
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = DialogFragmentAddImageBinding.inflate(inflater, container, false)
         viewModel = AddImageViewModel(requireActivity().application)
         dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         getArgs()
         return binding.root
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -122,42 +117,14 @@ class AddImageDialogFragment : DialogFragment() {
                     200
                 )
             } else {
-                openDialog()
+                HelperObject.openDialog(this.requireContext(),galleryResultLauncher,cameraResultLauncher)
             }
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
     }
-    private fun openDialog() {
-        val dialog = Dialog(this.requireContext(), R.style.Dialog_No_Border)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.camera_gallery_picker_view)
-        dialog.window!!.setLayout(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        dialog.window!!.setGravity(Gravity.CENTER_VERTICAL)
-        dialog.setCanceledOnTouchOutside(true)
-        val gallery = dialog.findViewById<TextView>(R.id.gallery)
-        val camera = dialog.findViewById<TextView>(R.id.camera)
-        gallery.setOnClickListener { v: View? ->
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "image/*"
-            val mimeTypes =
-                arrayOf("image/jpeg", "image/png")
-            intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
-            galleryResultLauncher.launch(intent)
-            dialog.dismiss()
-        }
-        camera.setOnClickListener { v: View? ->
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            cameraResultLauncher.launch(intent)
-            dialog.dismiss()
-        }
-        dialog.show()
-    }
     private fun handlerForOnResultActivity() {
-        galleryResultLauncher = registerForActivityResult<Intent, ActivityResult>(
+        galleryResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result: ActivityResult ->
 
@@ -169,14 +136,9 @@ class AddImageDialogFragment : DialogFragment() {
                         val selectedImageBitmap =
                             MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, contentURI)
                         uri =
-                            saveImageToInternalStorage(selectedImageBitmap)
+                            HelperObject.saveImageToInternalStorage(requireActivity().application,selectedImageBitmap)
                         binding.attachedImage.visibility= View.VISIBLE
-//                        binding.attachedImage.load(uri){
-//                            error(R.drawable.delete)
-//                            transformations(RoundedCornersTransformation(4f))
-//                        }
                         binding.attachedImage.setImageBitmap(HelperObject.getBitmap(uri.toString()))
-                        //handle
                     } catch (e: IOException) {
                         e.printStackTrace()
                         Toast.makeText(
@@ -188,14 +150,14 @@ class AddImageDialogFragment : DialogFragment() {
                 }
             }
         }
-        cameraResultLauncher = registerForActivityResult<Intent, ActivityResult>(
+        cameraResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data!!
                 val thumbnail =
                     data.extras!!["data"] as Bitmap? // Bitmap from camera
-                uri = saveImageToInternalStorage(thumbnail!!)
+                uri = HelperObject.saveImageToInternalStorage(requireActivity().application,thumbnail!!)
                 binding.attachedImage.visibility= View.VISIBLE
                 binding.attachedImage.setImageBitmap(HelperObject.getBitmap(uri.toString()))
             }
@@ -213,29 +175,12 @@ class AddImageDialogFragment : DialogFragment() {
             binding.attachedImage
         }
     }
-
-    private fun saveImageToInternalStorage(bitmap: Bitmap): Uri? {
-        val wrapper = ContextWrapper(requireActivity().application)
-        var file = wrapper.getDir("IMAGE_DIRECTORY", Context.MODE_PRIVATE)
-        Log.e("FILE NAME", file.absolutePath.toString())
-        file = File(file, UUID.randomUUID().toString() + ".jpg")
-        try {
-            val stream: OutputStream = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-            stream.flush()
-            stream.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return Uri.parse(file.absolutePath)
-    }
     private fun getArgs() {
         if (arguments != null && arguments?.containsKey(key) == true) {
             Id = requireArguments().getInt(key)
             isAdd = false
         }
     }
-
     companion object {
         val key = "EXTRAS_KEY"
         fun instance(id : Int = 0,isAdd : Boolean): AddImageDialogFragment {
