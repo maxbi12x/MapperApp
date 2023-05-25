@@ -7,9 +7,12 @@ import android.os.Bundle
 import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.davemorrissey.labs.subscaleview.ImageSource
+import com.example.mapperapp.adapters.MarkerAdapter
 import com.example.mapperapp.utils.HelperObject
 import com.example.mapperapp.databinding.ActivityMainBinding
 import com.example.mapperapp.models.ImageDetailsModel
@@ -32,6 +35,7 @@ class MainActivity : AppCompatActivity(){
         setContentView(binding.root)
         setListeners()
         viewModel = MainActivityViewModel(this.application)
+
         getDrawingIDFromIntent()
         setObservers()
         getImage()
@@ -91,9 +95,22 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
+    fun setAdapter(){
+        binding.markerRecycler.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+        binding.markerRecycler.adapter = MarkerAdapter(markerList!!)
+    }
     private fun setListeners(){
         binding.backButton.setOnClickListener{
             finish()
+        }
+        binding.markerList.setOnClickListener{
+            if(binding.image.visibility == View.VISIBLE){
+                binding.image.visibility = View.GONE
+                binding.markerRecycler.visibility = View.VISIBLE
+            }else{
+                binding.image.visibility = View.VISIBLE
+                binding.markerRecycler.visibility = View.GONE
+            }
         }
     }
     private fun getImage() {
@@ -106,6 +123,7 @@ class MainActivity : AppCompatActivity(){
         viewModel.markerListLive.observe(this@MainActivity){
             binding.image.setPin(it)
             markerList = it
+            setAdapter()
         }
         binding.image.apply {
             viewModel.imageLive.observe(this@MainActivity) {
